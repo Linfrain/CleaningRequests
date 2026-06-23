@@ -2,19 +2,36 @@
 
 <div class="page">
     <main>
-        <div class="top-row px-4">
-            <button>Оставить отзыв</button>
-            <button>Войти</button>
-        </div>
+        <div class="form-container">
+            <div class="form-header">
+                <div class="logo">
+                    <i class="fa-solid fa-broom"></i>
+                    <span>OfficeClean</span>
+                </div>
+                <div class="header-buttons">
+                    <a href="#" class="header-btn btn-review">
+                        <i class="fa fa-commenting" aria-hidden="true"></i>
+                        Оставить отзыв
+                    </a>
+                    <a href="#" class="header-btn btn-login">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        Войти
+                    </a>
+                </div>
+            </div>
+            <div class="form-title">
+                <h1>НОВАЯ ЗАЯВКА</h1>
+            </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
+            <article class="content px-4">
+                @Body
+            </article>
+        </div>
     </main>
 </div>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+	An unhandled error has occurred.
+	<a href="" class="reload">Reload</a>
+	<a class="dismiss">🗙</a>
 </div>

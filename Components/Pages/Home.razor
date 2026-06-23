@@ -1,36 +1,43 @@
 ﻿@page "/"
 
 <PageTitle>Новая заявка</PageTitle>
-	<div class="form-group">
-		<div class="input-container">
-			<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-			<input type="text" placeholder="ФИО сотрудника" />
-		</div>
-		<div class="input-container">
-			<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-			<input type="text" placeholder="Номер телефона" />
-		</div>
-		<div class="input-container">
-			<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-			<input type="text" placeholder="Адрес офиса" />
-		</div>
-		<div class="input-container">
-		<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
-			<input type="text" placeholder="Кабинеты" />
-		</div>
-		<p>Выберите необходимые услуги</p>
-		<select>
-			<option value="">Option 1</option>
-			<option value="">Option 2</option>
-			<option value="">Option 3</option>
-		</select>
-		<p>Выберите дату и время </p>
-		<div class="input-datetime">
-			<input type="date" placeholder="Выберите дату"/>
-			<input type="time" placeholder="Выберите время" />
-		</div>
-		<textarea placeholder="Комментарий" rows="4" />
-		<button id="send-request">Создать заявку</button>
+<div class="form-group">
+	<div class="input-container">
+		<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+		<input type="text" placeholder="ФИО сотрудника" />
 	</div>
+	<div class="input-container">
+		<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+		<input type="text" placeholder="Номер телефона" />
+	</div>
+	<div class="input-container">
+		<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+		<input type="text" placeholder="Адрес офиса" />
+	</div>
+	<div class="input-container">
+		<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
+		<input type="text" placeholder="Кабинеты" />
+	</div>
+	<p>Выберите необходимые услуги</p>
+	<div class="checkboxes-form">
+	<fieldset class="checkboxes">
+		<label class="label-checkbox"><input type="checkbox" name="service" value="wet-floor"> Влажная уборка</label>
+			<label class="label-checkbox"><input type="checkbox" name="service" value="restroom"> Химчистка мебели</label>
+			<label class="label-checkbox"><input type="checkbox" name="service" value="windows"> Мытье окон</label>
+	</fieldset>
+	<fieldset class ="checkboxes">
+		<label class="label-checkbox"><input type="checkbox" name="service" value="wet-floor"> Сухая уборка</label>
+			<label class="label-checkbox"><input type="checkbox" name="service" value="restroom"> Уборка санузлов</label>
+		<label class="label-checkbox"><input type="checkbox" name="service" value="vacuum"> Чистка ковров</label>
+	</fieldset>
+	</div>
+	<p>Выберите дату и время </p>
+	<div class="input-datetime">
+		<input type="date" placeholder="Выберите дату" />
+		<input type="time" placeholder="Выберите время" />
+	</div>
+	<textarea placeholder="Комментарий" rows="4" />
+	<button id="send-request">Создать заявку</button>
+</div>
 
 
