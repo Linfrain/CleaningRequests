@@ -34,6 +34,13 @@ h1:focus {
     outline: none;
 }
 
+.error-message {
+    font-size: 15px;
+    margin-top: 8px;
+    margin-left: 10px;
+    color: var(--bs-danger);
+}
+
 .form-container {
     width: 90%;
     background: var(--color-background);
@@ -143,14 +150,20 @@ h1:focus {
         color: var(--color-text-primary);
     }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    min-width: 340px;
+    max-width: 500px;
+    width: 40%;
+}
+
 .input-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 340px;
-    max-width: 500px;
-    width: 40%;
+
 }
 
     .input-container .icon {
@@ -187,21 +200,24 @@ h1:focus {
 
 
 .checkboxes-form {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    min-width: 340px;
-    max-width: 800px;
-    width: 50%;
     align-items: center;
     justify-content: space-evenly;
-    gap: 20px;
 }
 
 .checkboxes {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 70px;
     padding: 0;
+}
+
+@media (max-width: 600px) {
+    .checkboxes{
+        grid-template-columns: 1fr;
+    }
 }
 
 .label-checkbox {
@@ -247,15 +263,12 @@ input[type="checkbox"] {
         box-shadow: var(--shadow-sm);
     }
 
-    .input-datetime {
-        display: flex;
-        min-width: 340px;
-        max-width: 500px;
-        width: 40%;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
+.input-datetime {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
 
 input[type="date"] {
     padding: 10px 20px 10px 20px;
@@ -270,7 +283,6 @@ input[type="date"] {
         filter: invert(78%) sepia(5%) saturate(3201%) hue-rotate(184deg) brightness(99%) contrast(87%);
         cursor: pointer;
     }
-
 
     input[type="date"]:focus {
         outline: none;

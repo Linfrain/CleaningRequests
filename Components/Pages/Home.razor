@@ -1,43 +1,91 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject ApplicationDbContext DbContext
 
 <PageTitle>Новая заявка</PageTitle>
-<div class="form-group">
-	<div class="input-container">
-		<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-		<input type="text" placeholder="ФИО сотрудника" />
+<EditForm FormName="CreateRequest" Model="request" OnValidSubmit="HandleSubmit">
+	<DataAnnotationsValidator />
+	<div class="form-group">
+		<div class="form">
+			<div class="input-container">
+				<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+				<InputText @bind-Value="request.Full_name" type="text" placeholder="ФИО сотрудника" MaxLength="100" />
+			</div>
+			<ValidationMessage For="@(() => request.Full_name)" class="error-message" />
+		</div>
+		<div class="form">
+			<div class="input-container">
+				<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+				<InputText @bind-Value="request.Phone" type="text" placeholder="Номер телефона" MaxLength="20" />
+			</div>
+			<ValidationMessage For="@(() => request.Phone)" class="error-message" />
+		</div>
+		<div class="form">
+			<div class="input-container">
+				<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+				<InputText @bind-Value="request.Address" type="text" placeholder="Адрес офиса" MaxLength="200" />
+			</div>
+			<ValidationMessage For="@(() => request.Address)" class="error-message" />
+		</div>
+		<div class="form">
+			<div class="input-container">
+				<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
+				<InputText @bind-Value="request.Cabinets" type="text" placeholder="Кабинеты" MaxLength="200" />
+			</div>
+			<ValidationMessage For="@(() => request.Cabinets)" class="error-message" />
+		</div>
+		<p>Выберите необходимые услуги</p>
+		<div form>
+			<div class="checkboxes-form">
+				<fieldset class="checkboxes">
+					@foreach (var service in allServices)
+					{
+						<label class="label-checkbox">
+							<input value="@service.Id" type="checkbox" @onchange="e => ToggleService(service.Id, (bool)e.Value!)" />
+							@service.Name
+						</label>
+					}
+				</fieldset>
+			</div>
+			<ValidationMessage For="@(() => request.Services)" class="error-message" />
+		</div>
+		<p>Выберите дату и время</p>
+		<div class="form">
+			<div class="input-datetime">
+				<InputDate @bind-Value="request.Request_date" min="@DateTime.Today.ToString("yyyy-MM-dd")" ParsingErrorMessage="Выберите дату уборки." />
+				<InputDate Type="InputDateType.Time" @bind-Value="request.Request_time" min="08:00" max="20:00" />
+			</div>
+			<ValidationMessage For="@(() => request.Request_date)" class="error-message" />
+			<ValidationMessage For="@(() => request.Request_time)" class="error-message" />
+		</div>
+		<InputTextArea @bind-Value="request.Comment" placeholder="Комментарий" rows="4" MaxLength="300" />
+		<button id="send-request" type="submit">Создать заявку</button>
 	</div>
-	<div class="input-container">
-		<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-		<input type="text" placeholder="Номер телефона" />
-	</div>
-	<div class="input-container">
-		<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-		<input type="text" placeholder="Адрес офиса" />
-	</div>
-	<div class="input-container">
-		<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
-		<input type="text" placeholder="Кабинеты" />
-	</div>
-	<p>Выберите необходимые услуги</p>
-	<div class="checkboxes-form">
-	<fieldset class="checkboxes">
-		<label class="label-checkbox"><input type="checkbox" name="service" value="wet-floor"> Влажная уборка</label>
-			<label class="label-checkbox"><input type="checkbox" name="service" value="restroom"> Химчистка мебели</label>
-			<label class="label-checkbox"><input type="checkbox" name="service" value="windows"> Мытье окон</label>
-	</fieldset>
-	<fieldset class ="checkboxes">
-		<label class="label-checkbox"><input type="checkbox" name="service" value="wet-floor"> Сухая уборка</label>
-			<label class="label-checkbox"><input type="checkbox" name="service" value="restroom"> Уборка санузлов</label>
-		<label class="label-checkbox"><input type="checkbox" name="service" value="vacuum"> Чистка ковров</label>
-	</fieldset>
-	</div>
-	<p>Выберите дату и время </p>
-	<div class="input-datetime">
-		<input type="date" placeholder="Выберите дату" />
-		<input type="time" placeholder="Выберите время" />
-	</div>
-	<textarea placeholder="Комментарий" rows="4" />
-	<button id="send-request">Создать заявку</button>
-</div>
+</EditForm>
 
+@code {
+	private Request request = new();
+	private List<Service> allServices = new();
 
+	protected override async Task OnInitializedAsync()
+	{
+		allServices = await DbContext.Services.ToListAsync();
+	}
+
+	private void ToggleService(int serviceId, bool isSelected)
+	{
+		var service = allServices.Find(s => s.Id == serviceId);
+		if (service != null)
+		{
+			if (isSelected)
+				request.Services.Add(service);
+			else
+				request.Services.Remove(service);
+		}
+	}
+
+	private async Task HandleSubmit()
+	{
+
+	}
+}
