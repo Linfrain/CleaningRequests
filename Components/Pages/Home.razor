@@ -86,6 +86,7 @@
 
 	private async Task HandleSubmit()
 	{
-
+		DbContext.Requests.Add(request);
+		await DbContext.SaveChangesAsync();
 	}
 }

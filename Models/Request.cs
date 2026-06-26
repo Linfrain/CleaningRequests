@@ -42,7 +42,7 @@ public partial class Request
 
     public string? Comment { get; set; }
 
-    public int Status_id { get; set; }
+    public int Status_id { get; set; } = 1;
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
