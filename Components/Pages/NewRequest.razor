@@ -1,5 +1,6 @@
 ﻿@page "/"
 @rendermode InteractiveServer
+@inject NavigationManager NavigationManager
 @inject ApplicationDbContext DbContext
 
 <PageTitle>Новая заявка</PageTitle>
@@ -88,5 +89,6 @@
 	{
 		DbContext.Requests.Add(request);
 		await DbContext.SaveChangesAsync();
+		NavigationManager.NavigateTo("/my-requests");
 	}
 }
