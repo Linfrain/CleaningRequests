@@ -136,7 +136,7 @@ h1:focus {
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    padding: 0px 10px 20px 10px;
+    padding: 2px 10px 40px 10px;
 }
 
     .form-group p {
@@ -156,6 +156,14 @@ h1:focus {
     min-width: 340px;
     max-width: 500px;
     width: 40%;
+}
+
+.form-small {
+    display: flex;
+    flex-direction: column;
+    min-width: 340px;
+    max-width: 400px;
+    width: 20%;
 }
 
 .input-container {
@@ -374,4 +382,26 @@ textarea {
         color: var(--color-background);
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
+    }
+
+.btn-submit {
+    margin: 10px 0px 0px 0px;
+    min-width: 340px;
+    max-width: 400px;
+    width: 20%;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--color-primary-hover);
     }
