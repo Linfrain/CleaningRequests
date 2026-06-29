@@ -2,7 +2,9 @@
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject UserManager<ApplicationUser> UserManager
 @inject ApplicationDbContext DbContext
+@inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Новая заявка</PageTitle>
 <div class="form-container">
@@ -93,10 +95,27 @@
 @code {
 	private Request request = new();
 	private List<Service> allServices = new();
+	private ApplicationUser? currentUser;
 
 	protected override async Task OnInitializedAsync()
 	{
 		allServices = await DbContext.Services.ToListAsync();
+
+		var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user?.Identity?.IsAuthenticated != true)
+		{
+			NavigationManager.NavigateTo("Account/Login");
+			return;
+		};
+
+		currentUser = await UserManager.GetUserAsync(user);
+
+		if (currentUser is null)
+			return;
+
+		request.UserId = currentUser.Id;
 	}
 
 	private void ToggleService(int serviceId, bool isSelected)

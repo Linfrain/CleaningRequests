@@ -1,4 +1,5 @@
 ﻿using CleaningRequests.Components.Validation;
+using CleaningRequests.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace CleaningRequests.Models;
@@ -44,7 +45,13 @@ public partial class Request
 
     public int Status_id { get; set; } = 1;
 
-    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+    public int? Stars { get; set; }
+
+    public string? Feedback { get; set; }
+
+    [Required]
+    public string UserId { get; set; } = null!;
+    public virtual ApplicationUser User { get; set; } = null!;
 
     public virtual Status Status { get; set; } = null!;
 
