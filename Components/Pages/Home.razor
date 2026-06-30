@@ -1,0 +1,19 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>OfficeClean</PageTitle>
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		if (user.IsInRole("Admin"))
+			NavigationManager.NavigateTo("/admin/requests");
+		else 
+			NavigationManager.NavigateTo("/my-requests");
+	}
+}

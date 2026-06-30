@@ -11,68 +11,49 @@
 @inject IdentityRedirectManager RedirectManager
 
 <PageTitle>Вход в аккаунт</PageTitle>
-
-<div class="form-container">
-	<div class="form-header">
-		<div class="logo">
-			<i class="fa-solid fa-broom"></i>
-			<span>OfficeClean</span>
-		</div>
-		<div class="header-buttons">
-			<a href="#" class="header-btn btn-review">
-				<i class="fa fa-commenting" aria-hidden="true"></i>
-				Оставить отзыв
-			</a>
-			<a href="#" class="header-btn btn-login">
-				<i class="fa fa-user-circle" aria-hidden="true"></i>
-				Войти
-			</a>
-		</div>
-	</div>
-	<div class="form-title">
-		<h1>ВХОД В АККАУНТ</h1>
-	</div>
-	<article class="content px-4">
-		<StatusMessage Message="@errorMessage" />
-		<EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
-			<DataAnnotationsValidator />
-			<div class="form-group">
-				<div class="form-small">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-						<InputText @bind-Value="Input.Email" type="text" autocomplete="username" aria-required="true" placeholder="Email" />
-					</div>
-					<ValidationMessage For="@(() => Input.Email)" class="error-message" />
-				</div>
-
-				<div class="form-small">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-						<InputText type="password" @bind-Value="Input.Password" aria-required="true" autocomplete="current-password" placeholder="Пароль" />
-					</div>
-					<ValidationMessage For="@(() => Input.Password)" class="error-message" />
-				</div>
-				<div class="form-small">
-					<label class="label-checkbox">
-						<InputCheckbox @bind-Value="Input.RememberMe" />
-						Запомнить меня
-					</label>
-				</div>
-				<div>
-					<button type="submit" class="btn-submit btn-login">
-						<i class="fa fa-user-circle" aria-hidden="true"></i>
-						Войти
-					</button>
-				</div>
-				<div>
-					<p>
-						<a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Зарегистрироваться</a>
-					</p>
-				</div>
-			</div>
-		</EditForm>
-	</article>
+<div class="form-title">
+	<h1>ВХОД В АККАУНТ</h1>
 </div>
+<article class="content px-4">
+	<StatusMessage Message="@errorMessage" />
+	<EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+		<DataAnnotationsValidator />
+		<div class="form-group">
+			<div class="form-small">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+					<InputText @bind-Value="Input.Email" type="text" autocomplete="username" aria-required="true" placeholder="Email" />
+				</div>
+				<ValidationMessage For="@(() => Input.Email)" class="error-message" />
+			</div>
+
+			<div class="form-small">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+					<InputText type="password" @bind-Value="Input.Password" aria-required="true" autocomplete="current-password" placeholder="Пароль" />
+				</div>
+				<ValidationMessage For="@(() => Input.Password)" class="error-message" />
+			</div>
+			<div class="form-small">
+				<label class="label-checkbox">
+					<InputCheckbox @bind-Value="Input.RememberMe" />
+					Запомнить меня
+				</label>
+			</div>
+			<div>
+				<button type="submit" class="btn-submit btn-login">
+					<i class="fa fa-user-circle" aria-hidden="true"></i>
+					Войти
+				</button>
+			</div>
+			<div>
+				<p>
+					<a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Зарегистрироваться</a>
+				</p>
+			</div>
+		</div>
+	</EditForm>
+</article>
 
 @code {
 	private string? errorMessage;

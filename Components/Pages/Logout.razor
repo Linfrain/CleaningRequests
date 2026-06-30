@@ -1,0 +1,17 @@
+﻿@page "/logout"
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
+
+<PageTitle>Выход из аккаунта</PageTitle>
+
+<div class="logout-container">
+	<p>Выход из системы...</p>
+</div>
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		await SignInManager.SignOutAsync();
+		NavigationManager.NavigateTo("/Account/Login");
+	}
+}

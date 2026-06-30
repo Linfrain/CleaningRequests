@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/new-request"
 @attribute [Authorize]
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
@@ -7,88 +7,70 @@
 @inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>Новая заявка</PageTitle>
-<div class="form-container">
-	<div class="form-header">
-		<div class="logo">
-			<i class="fa-solid fa-broom"></i>
-			<span>OfficeClean</span>
-		</div>
-		<div class="header-buttons">
-			<a href="A" class="header-btn btn-review">
-				<i class="fa fa-commenting" aria-hidden="true"></i>
-				Оставить отзыв
-			</a>
-			<a href="Account/Login" class="header-btn btn-login">
-				<i class="fa fa-user-circle" aria-hidden="true"></i>
-				Войти
-			</a>
-		</div>
-	</div>
-	<div class="form-title">
-		<h1>НОВАЯ ЗАЯВКА</h1>
-	</div>
-	<article class="content px-4">
-		<EditForm FormName="CreateRequest" Model="request" OnValidSubmit="HandleSubmit">
-			<DataAnnotationsValidator />
-			<div class="form-group">
-				<div class="form">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
-						<InputText @bind-Value="request.Full_name" type="text" placeholder="ФИО сотрудника" MaxLength="100" />
-					</div>
-					<ValidationMessage For="@(() => request.Full_name)" class="error-message" />
-				</div>
-				<div class="form">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-						<InputText @bind-Value="request.Phone" type="text" placeholder="Номер телефона" MaxLength="20" />
-					</div>
-					<ValidationMessage For="@(() => request.Phone)" class="error-message" />
-				</div>
-				<div class="form">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-						<InputText @bind-Value="request.Address" type="text" placeholder="Адрес офиса" MaxLength="200" />
-					</div>
-					<ValidationMessage For="@(() => request.Address)" class="error-message" />
-				</div>
-				<div class="form">
-					<div class="input-container">
-						<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
-						<InputText @bind-Value="request.Cabinets" type="text" placeholder="Кабинеты" MaxLength="200" />
-					</div>
-					<ValidationMessage For="@(() => request.Cabinets)" class="error-message" />
-				</div>
-				<p>Выберите необходимые услуги</p>
-				<div form>
-					<div class="checkboxes-form">
-						<fieldset class="checkboxes">
-							@foreach (var service in allServices)
-							{
-								<label class="label-checkbox">
-									<input value="@service.Id" type="checkbox" @onchange="e => ToggleService(service.Id, (bool)e.Value!)" />
-									@service.Name
-								</label>
-							}
-						</fieldset>
-					</div>
-					<ValidationMessage For="@(() => request.Services)" class="error-message" />
-				</div>
-				<p>Выберите дату и время</p>
-				<div class="form">
-					<div class="input-datetime">
-						<InputDate @bind-Value="request.Request_date" min="@DateTime.Today.ToString("yyyy-MM-dd")" ParsingErrorMessage="Выберите дату уборки." />
-						<InputDate Type="InputDateType.Time" @bind-Value="request.Request_time" min="08:00" max="20:00" />
-					</div>
-					<ValidationMessage For="@(() => request.Request_date)" class="error-message" />
-					<ValidationMessage For="@(() => request.Request_time)" class="error-message" />
-				</div>
-				<InputTextArea @bind-Value="request.Comment" placeholder="Комментарий" rows="4" MaxLength="300" />
-				<button id="send-request" type="submit">Создать заявку</button>
-			</div>
-		</EditForm>
-	</article>
+<div class="form-title">
+	<h1>НОВАЯ ЗАЯВКА</h1>
 </div>
+<article class="content px-4">
+	<EditForm FormName="CreateRequest" Model="request" OnValidSubmit="HandleSubmit">
+		<DataAnnotationsValidator />
+		<div class="form-group">
+			<div class="form">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+					<InputText @bind-Value="request.Full_name" type="text" placeholder="ФИО сотрудника" MaxLength="100" />
+				</div>
+				<ValidationMessage For="@(() => request.Full_name)" class="error-message" />
+			</div>
+			<div class="form">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+					<InputText @bind-Value="request.Phone" type="text" placeholder="Номер телефона" MaxLength="20" />
+				</div>
+				<ValidationMessage For="@(() => request.Phone)" class="error-message" />
+			</div>
+			<div class="form">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+					<InputText @bind-Value="request.Address" type="text" placeholder="Адрес офиса" MaxLength="200" />
+				</div>
+				<ValidationMessage For="@(() => request.Address)" class="error-message" />
+			</div>
+			<div class="form">
+				<div class="input-container">
+					<span class="icon"><i class="fa fa-building" aria-hidden="true"></i></span>
+					<InputText @bind-Value="request.Cabinets" type="text" placeholder="Кабинеты" MaxLength="200" />
+				</div>
+				<ValidationMessage For="@(() => request.Cabinets)" class="error-message" />
+			</div>
+			<p>Выберите необходимые услуги</p>
+			<div form>
+				<div class="checkboxes-form">
+					<fieldset class="checkboxes">
+						@foreach (var service in allServices)
+						{
+							<label class="label-checkbox">
+								<input value="@service.Id" type="checkbox" @onchange="e => ToggleService(service.Id, (bool)e.Value!)" />
+								@service.Name
+							</label>
+						}
+					</fieldset>
+				</div>
+				<ValidationMessage For="@(() => request.Services)" class="error-message" />
+			</div>
+			<p>Выберите дату и время</p>
+			<div class="form">
+				<div class="input-datetime">
+					<InputDate @bind-Value="request.Request_date" min="@DateTime.Today.ToString("yyyy-MM-dd")" ParsingErrorMessage="Выберите дату уборки." />
+					<InputDate Type="InputDateType.Time" @bind-Value="request.Request_time" min="08:00" max="20:00" />
+				</div>
+				<ValidationMessage For="@(() => request.Request_date)" class="error-message" />
+				<ValidationMessage For="@(() => request.Request_time)" class="error-message" />
+			</div>
+			<InputTextArea @bind-Value="request.Comment" placeholder="Комментарий" rows="4" MaxLength="300" />
+			<button id="send-request" type="submit">Создать заявку</button>
+		</div>
+	</EditForm>
+</article>
 
 
 
@@ -108,7 +90,8 @@
 		{
 			NavigationManager.NavigateTo("Account/Login");
 			return;
-		};
+		}
+		;
 
 		currentUser = await UserManager.GetUserAsync(user);
 

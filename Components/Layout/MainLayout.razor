@@ -3,8 +3,46 @@
 
 <div class="page">
 	<main>
-		@Body
+		<div class="form-container">
+			<div class="form-header">
+				<div class="logo">
+					<i class="fa-solid fa-broom"></i>
+					<span>OfficeClean</span>
+				</div>
+				<AuthorizeView Roles="Admin">
+					<Authorized>
+						<div class="header-buttons">
+							<a href="/logout" class="header-btn btn-login">
+								<i class="fa fa-user-circle" aria-hidden="true"></i>
+								Выйти
+							</a>
+						</div>
+					</Authorized>
+				</AuthorizeView>
+
+				<AuthorizeView Roles="User">
+					<Authorized>
+						<div class="header-buttons">
+							<a href="/new-request" class="header-btn btn-review">
+								<i class="fa-solid fa-plus" aria-hidden="true"></i>
+								Новая заявка
+							</a>
+							<a href="/" class="header-btn btn-review">
+								<i class="fa fa-list-alt" aria-hidden="true"></i>
+								Мои заявки
+							</a>
+							<a href="/logout" class="header-btn btn-login">
+								<i class="fa fa-user-circle" aria-hidden="true"></i>
+								Выйти
+							</a>
+						</div>
+					</Authorized>
+				</AuthorizeView>
+			</div>
+			@Body
+		</div>
 	</main>
+
 </div>
 
 <div id="blazor-error-ui">
