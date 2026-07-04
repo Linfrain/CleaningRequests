@@ -1,8 +1,157 @@
 ﻿@page "/admin/requests"
+@rendermode InteractiveServer
+@inject IJSRuntime JS
 @attribute [Authorize(Roles = "Admin")]
+@inject ApplicationDbContext DbContext
 
-<h3>AdminPage</h3>
+<PageTitle>Заявки клиентов</PageTitle>
+<div class="form-title">
+	<h1>ЗАЯВКИ КЛИЕНТОВ</h1>
+</div>
+<article class="content px-4">
+	<div class="filters">
+		<input type="text" id="search" @bind="searchText" @bind:after="ApplyFilters" placeholder="ФИО, адрес, телефон..." MaxLength="100" />
+		<select @bind="selectedStatusId" @bind:after="ApplyFilters">
+			<option value="0">Все заявки</option>
+			@foreach (var status in statuses)
+			{
+				<option value="@status.Id">@status.Name</option>
+			}
+		</select>
+	</div>
+
+	@if (filteredRequests.Any())
+	{
+		<table class="table-requests">
+			<thead>
+				<tr>
+					<th class="id-th">ID</th>
+					<th>Заказчик</th>
+					<th>Адрес</th>
+					<th>Дата и время</th>
+					<th>Услуги</th>
+					<th>Статус</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			@foreach (var request in filteredRequests)
+			{
+				<tr>
+					<td class="id-cell">@request.Id</td>
+					<td>
+						<div>
+							<div class="user-cell">@request.Full_name</div>
+							<div class="phone-cell">@request.Phone</div>
+						</div>
+					</td>
+					<td>
+						<div>@request.Address</div>
+						<div class="cabinets">Кабинеты: @request.Cabinets</div>
+					</td>
+					<td>
+						<div class="time-cell">
+							<div>@request.Request_date</div>
+							<div>@request.Request_time</div>
+						</div>
+					</td>
+					<td>
+						<div class="services-list">
+							@foreach (var service in request.Services)
+							{
+								<label class="service"> • @service.Name</label>
+							}
+						</div>
+						@if (!string.IsNullOrEmpty(request.Comment))
+						{
+							<div class="comment">
+								<b>Комментарий: </b>@request.Comment
+							</div>
+						}
+					</td>
+					<td>
+						<span class="@(request.Status_id == 1 ? "active" : "completed")">@request.Status.Name </span>
+					</td>
+					<td>
+						@if (request.Status_id == 1)
+						{
+							<button @onclick="() => ChangeStatus(request)" class="btn-status-active">
+								<i class="fa fa-clock" aria-hidden="true"></i>
+							</button>
+						}
+						else
+						{
+							<button @onclick="() => ChangeStatus(request)" class="btn-status-done">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</button>
+						}
+					</td>
+					<td>
+						<div>
+							<button @onclick="() => DeleteRequest(request)" class="btn-delete">
+								<i class="fa fa-trash" aria-hidden="true"></i>
+							</button>
+						</div>
+					</td>
+				</tr>
+			}
+		</table>
+	}
+	else
+	{
+		<div class="form">
+			<i class="fade fa-inbox" aria-hidden="true"></i>
+			<p>Заявки не найдены</p>
+		</div>
+	}
+</article>
 
 @code {
+	private List<Request> allRequests = new();
+	private List<Request> filteredRequests = new();
+	private List<Status> statuses = new();
+	private string searchText = "";
+	private int selectedStatusId = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		statuses = await DbContext.Statuses.ToListAsync();
+		allRequests = await DbContext.Requests.Include(r => r.Services).Include(r => r.Status).OrderByDescending(r => r.Request_date).OrderByDescending(r => r.Request_time).ToListAsync();
+		ApplyFilters();
+	}
+
+	private async Task ChangeStatus(Request request)
+	{
+		request.Status_id = request.Status_id == 1 ? 2 : 1;
+		request.Status = statuses.FirstOrDefault(s => s.Id == request.Status_id)!;
+		await DbContext.SaveChangesAsync();
+	}
+
+	private async Task DeleteRequest(Request request)
+	{
+		bool confirmed = await JS.InvokeAsync<bool>("window.confirm", "Вы уверены, что хотите удалить запись?");
+		if (confirmed)
+		{
+			DbContext.Requests.Remove(request);
+			await DbContext.SaveChangesAsync();
+			allRequests.Remove(request);
+		}
+		;
+	}
+
+	private void ApplyFilters()
+	{
+		var requests = allRequests.AsEnumerable();
+		if (selectedStatusId != 0)
+			requests = requests.Where(r => r.Status_id == selectedStatusId);
+
+		if (!string.IsNullOrWhiteSpace(searchText))
+		{
+			var search = searchText.ToLower();
+			requests = requests.Where(r => r.Full_name.ToLower().Contains(search) || r.Address.ToLower().Contains(search) || r.Phone.ToLower().Contains(search));
+		}
+
+		filteredRequests = requests.ToList();
+	}
 
 }
