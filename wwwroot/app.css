@@ -89,13 +89,13 @@ h1:focus {
     gap: 8px;
 }
 
-.btn-review {
+.btn-review, .btn-feedback {
     background: var(--color-background);
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
 }
 
-    .btn-review:hover {
+    .btn-review:hover, .btn-feedback:hover {
         background: var(--color-primary-light);
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
@@ -150,20 +150,22 @@ h1:focus {
         color: var(--color-text-primary);
     }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    min-width: 340px;
-    max-width: 500px;
-    width: 40%;
-}
-
 .form-small {
     display: flex;
     flex-direction: column;
     min-width: 340px;
     max-width: 400px;
     width: 20%;
+}
+
+/* —Ú‡ÌËˆ‡ ÕŒ¬¿ﬂ «¿ﬂ¬ ¿ */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    min-width: 340px;
+    max-width: 500px;
+    width: 40%;
 }
 
 .input-container {
@@ -405,6 +407,7 @@ a {
         color: var(--color-primary-hover);
     }
 
+/* CÚ‡ÌËˆ‡ «¿ﬂ¬ »  À»≈Õ“Œ¬ */
 
 .filters {
     display: flex;
@@ -448,7 +451,7 @@ option {
     border-collapse: collapse;
     width: 100%;
     background: var(--color-background);
-    border-radius: 5px;
+    border-radius: 7px;
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -456,7 +459,7 @@ option {
     .table-requests th {
         background: var(--color-background-alt);
         color: var(--color-text-primary);
-        padding: 15px 5px;
+        padding: 10px 5px;
         text-align: left;
         font-weight: 600;
         font-size: 16px;
@@ -476,11 +479,15 @@ option {
     }
 
 
-    .table-requests th:nth-child(5),
-    .table-requests td:nth-child(5) {
-        max-width: 35%;
+    .table-requests th:nth-child(4),
+    .table-requests td:nth-child(4) {
+        min-width: 130px;
     }
 
+    .table-requests th:nth-child(5),
+    .table-requests td:nth-child(5) {
+        width: 45%;
+    }
 
     .table-requests th:nth-child(6),
     .table-requests td:nth-child(6) {
@@ -534,18 +541,19 @@ option {
 }
 
 .table-requests .services-list {
-    display: grid;
-    margin: 0 auto;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
 }
 
 .table-requests .service {
-    font-size: 13px;
-    color: var(--color-text-primary);
+    border: 2px solid var(--color-border);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
 }
-
 
 .table-requests .comment {
     padding: 10px 0px 0px 0px;
@@ -575,13 +583,14 @@ option {
     .btn-status-done:hover {
         color: var(--color-text-primary);
     }
-
+    
+/*—Ú‡ÌËˆ‡ ÃŒ» «¿ﬂ¬ »*/
 
 .tiles-container {
     display: grid;
     grid-template-columns: repeat(autofill, minmax(340px, 1fr));
     gap: 20px;
-    padding: 10px 20px 20px 20px;
+    padding: 20px;
 }
 
 .tile {
@@ -594,16 +603,24 @@ option {
 }
 
     .tile:hover {
-        transform: scale(1.02);
+        transform: scale(1.01);
     }
 
 .status-1 {
     color: var(--color-text-primary);
 }
 
+.tile-row i.not-filled {
+    color: transparent;
+}
+
 .status-2 {
     color: var(--color-text-light);
 }
+
+    .status-2 .tile-row i.filled {
+        color: var(--color-text-light);
+    }
 
 .tile .tile-header {
     display: flex;
@@ -661,7 +678,7 @@ option {
     font-weight: 600;
     color: var(--color-text-secondary);
     font-size: 15px;
-    min-width: 80px;
+    min-width: 110px;
 }
 
 .tile .value {
@@ -669,19 +686,19 @@ option {
     word-break: break-word;
 }
 
-.services-list {
+.tile .services-list {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    padding:10px;
+    padding: 10px 0;
 }
 
-.service {
+.tile .service {
     background: var(--color-background);
     padding: 5px 12px;
     border-radius: 20px;
-     font-size: 12px;
-     font-weight: 600;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .stars{
@@ -689,10 +706,33 @@ option {
     gap: 5px;
 }
 
-i.filled {
-    color: lemonchiffon;
+.tile-row i.filled {
+    color: var(--color-primary-hover);
 }
 
-i.filled {
-    color: lemonchiffon;
+.tile-row i.not-filled {
+    color: transparent;
+}
+
+.stats {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 0 0 20px;
+}
+
+.btn-feedback {
+    width: 100%;
+    padding: 12px;
+    border-width: medium;
+    border-style: none;
+    border-color: var(--color-primary);
+    border-image: initial;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
