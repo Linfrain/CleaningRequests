@@ -1,8 +1,8 @@
 ﻿@page "/admin/requests"
 @rendermode InteractiveServer
-@inject IJSRuntime JS
 @attribute [Authorize(Roles = "Admin")]
 @inject ApplicationDbContext DbContext
+@inject IJSRuntime JS
 
 <PageTitle>Заявки клиентов</PageTitle>
 <div class="form-title">
@@ -59,7 +59,7 @@
 						<div class="services-list">
 							@foreach (var service in request.Services)
 							{
-								<label class="service"> • @service.Name</label>
+								<label class="service">@service.Name</label>
 							}
 						</div>
 						@if (!string.IsNullOrEmpty(request.Comment))

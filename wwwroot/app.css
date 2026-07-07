@@ -421,13 +421,13 @@ a {
     padding: 5px 15px 5px 10px;
 }
 
-    #search, select:focus {
+    #search:focus, select:focus {
         outline: none;
         border-color: var(--color-primary-hover);
         box-shadow: var(--shadow-sm);
     }
 
-    #search, select:hover {
+    #search:hover, select:hover {
         outline: none;
         border-color: var(--color-primary);
         box-shadow: var(--shadow-sm);
@@ -471,7 +471,7 @@ option {
         border-bottom: 2px solid var(--color-border);
     }
 
-    .table-requests tbody tr:hover {
+    .table-requests tr:hover {
         background: var(--color-primary-lighter);
     }
 
@@ -527,7 +527,6 @@ option {
 
 .active {
     color: var(--color-text-primary);
-    ;
 }
 
 .completed {
@@ -576,3 +575,124 @@ option {
     .btn-status-done:hover {
         color: var(--color-text-primary);
     }
+
+
+.tiles-container {
+    display: grid;
+    grid-template-columns: repeat(autofill, minmax(340px, 1fr));
+    gap: 20px;
+    padding: 10px 20px 20px 20px;
+}
+
+.tile {
+    flex-direction: column;
+    background-color: var(--color-background-alt);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+    .tile:hover {
+        transform: scale(1.02);
+    }
+
+.status-1 {
+    color: var(--color-text-primary);
+}
+
+.status-2 {
+    color: var(--color-text-light);
+}
+
+.tile .tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px 10px 20px;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.tile .request-id {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+    .tile .request-id i {
+        color: var(--color-primary);
+    }
+
+.tile .status {
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tile tile-body {
+    padding: 20px;
+    flex: 1;
+}
+
+.tile .tile-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.tile .tile-row:last-child {
+    border-bottom: none;
+}
+
+.tile .tile-row i {
+    color: var(--color-primary);
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+}
+
+.tile .label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    min-width: 80px;
+}
+
+.tile .value {
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.services-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding:10px;
+}
+
+.service {
+    background: var(--color-background);
+    padding: 5px 12px;
+    border-radius: 20px;
+     font-size: 12px;
+     font-weight: 600;
+}
+
+.stars{
+    display: flex;
+    gap: 5px;
+}
+
+i.filled {
+    color: lemonchiffon;
+}
+
+i.filled {
+    color: lemonchiffon;
+}

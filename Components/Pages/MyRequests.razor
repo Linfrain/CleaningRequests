@@ -1,15 +1,123 @@
 ﻿@page "/my-requests"
-
 @attribute [Authorize(Roles = "User")]
+@inject ApplicationDbContext DbContext
+@inject AuthenticationStateProvider AuthStateProvider
+
 <PageTitle>Мои заявки</PageTitle>
 <div class="form-title">
 	<h1>МОИ ЗАЯВКИ</h1>
 </div>
 <article class="content px-4">
+	<div>
+		<span>Всего заявок: @myRequests.Count</span>
+	</div>
 
+	@if (myRequests.Any())
+	{
+		<section class="tiles-container">
+			@foreach (var request in myRequests)
+			{
+				<div class="tile status-@request.Status_id">
+					<div class="tile-header">
+						<div class="request-id">
+							<i class="fa fa-rectangle-list" aria-hidden="true"></i>
+							Заявка №@request.Id
+						</div>
+						<span class="status">
+							@(request.Status.Name ?? "-")
+						</span>
+					</div>
+
+					<div class="tile-body">
+						<div class="tile-row">
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+							<span class="label">Дата:</span>
+							<span class="value">@request.Request_date</span>
+						</div>
+						<div class="tile-row">
+							<i class="fa fa-clock" aria-hidden="true"></i>
+							<span class="label">Время:</span>
+							<span class="value">@request.Request_time</span>
+						</div>
+						<div class="tile-row">
+							<i class="fa fa-map-marker" "- aria-hidden="true"></i>
+							<span class="label">Адрес:</span>
+							<span class="value">@request.Address</span>
+						</div>
+						<div class="tile-row">
+							<i class="fa fa-building" aria-hidden="true"></i>
+							<span class="label">Кабинеты:</span>
+							<span class="value">@request.Cabinets</span>
+						</div>
+						@if (!string.IsNullOrEmpty(request.Comment))
+						{
+							<div class="tile-row">
+								<i class="fa fa-info-circle" aria-hidden="true"></i>
+								<span class="label">Комментарий:</span>
+								<span class="value">@request.Comment</span>
+							</div>
+						}
+						<div class="tile-row">
+							<i class="fa fa-list" aria-hidden="true"></i>
+							<span class="label">Услуги:</span>
+							<div class="services-list">
+								@foreach (var service in request.Services)
+								{
+									<span class="service">@service.Name</span>
+								}
+							</div>
+						</div>
+						@if (request.Stars is not null)
+						{
+							<div class="tile-row">
+								@if (request.Stars < 4)
+								{
+									<i class="fa fa-thumbs-down" aria-hidden="true"></i>
+								}
+								else
+								{
+									<i class="fa fa-thumbs-up" aria-hidden="true"></i>
+								}
+								<span class="label">Оценка:</span>
+								<div class="stars">
+								@for (int i = 0; i < 5; i++)
+								{
+									<i class="fa fa-star @(i <= request.Stars ? "filled" : "not-filled")" aria-hidden="true"></i>
+								}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			}
+		</section>
+	}
+	else
+	{
+		<div class="form">
+			<i class="fade fa-inbox" aria-hidden="true"></i>
+			<p>Заявки не найдены</p>
+		</div>
+	}
 </article>
 
 
 @code {
+	private List<Request> myRequests = new();
 
+	protected override async Task OnInitializedAsync()
+	{
+		var userId = await GetUserId();
+		if (!string.IsNullOrEmpty(userId))
+			myRequests = await DbContext.Requests.Where(r => r.UserId == userId).Include(r => r.Status).Include(r => r.Services).OrderBy(r => r.Status_id).ToListAsync();
+		myRequests.First().Stars = 3;
+		StateHasChanged();
+	}
+
+	async Task<string?> GetUserId()
+	{
+		var user = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+		var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+		return userId;
+	}
 }
