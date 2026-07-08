@@ -1,0 +1,96 @@
+﻿@rendermode InteractiveServer
+
+@if (IsVisible)
+{
+	<div class="modal-overlay" @onclick="OnClose">
+		<div class="modal-content" @onclick:stopPropagation>
+			<button type="button" class="modal-close" @onclick="Close">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</button>
+
+			<div class="modal-header">
+				<h4>Заявка №@RequestId</h4>
+			</div>
+
+			<div class="stars-section">
+				<div class="stars">
+					@foreach (var starIndex in Enumerable.Range(1, 5))
+					{
+						bool isActive = starIndex <= (hoverRating > 0 ? hoverRating : currentRating);
+						<button type="button" class="btn-star @(isActive ? " active" : "")"  @onclick="() => SetRating(starIndex)" @onmouseover="() => HoverRating(starIndex)" @onmouseout="ResetHover">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</button>
+					}
+				</div>
+			</div>
+
+			<div class="textarea-form">
+				<textarea @bind="feedback" @bind:event="oninput" placeholder="Расскажите, как прошла уборка..." rows="4" maxlength="300"></textarea>
+				<div class="char-count">
+					@(feedback?.Length ?? 0) / 300
+				</div>
+			</div>
+
+			<button type="button" class="btn-feedback dark @(currentRating == 0 ? "disabled" : "")" @onclick="Submit">
+				<i class="fa fa-pen-to-square" aria-hidden="true"></i>
+				Сохранить
+			</button>
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter] public bool IsVisible { get; set; }
+	[Parameter] public int RequestId { get; set; }
+	[Parameter] public EventCallback OnClose { get; set; }
+	[Parameter] public EventCallback<FeedbackData> OnSubmit { get; set; }
+
+	private int currentRating = 0;
+	private int hoverRating = 0;
+	private string? feedback;
+
+	private void SetRating(int rating)
+	{
+		currentRating = rating;
+	}
+
+	private void HoverRating(int stars)
+	{
+		hoverRating = stars;
+	}
+
+	private void ResetHover() => hoverRating = 0;
+
+	private async Task Close()
+	{
+		ResetState();
+		await OnClose.InvokeAsync();
+
+	}
+
+	private void ResetState()
+	{
+		currentRating = 0;
+		hoverRating = 0;
+		feedback = null;
+	}
+
+	private async Task Submit()
+	{
+		if (currentRating == 0) return;
+
+		await OnSubmit.InvokeAsync(new FeedbackData
+			{
+				Stars = currentRating,
+				Feedback = feedback
+			});
+
+		ResetState();
+	}
+
+	public class FeedbackData
+	{
+		public int Stars { get; set; }
+		public string? Feedback { get; set; }
+	}
+}

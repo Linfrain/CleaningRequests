@@ -116,7 +116,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		statuses = await DbContext.Statuses.ToListAsync();
-		allRequests = await DbContext.Requests.Include(r => r.Services).Include(r => r.Status).OrderByDescending(r => r.Request_date).OrderByDescending(r => r.Request_time).ToListAsync();
+		allRequests = await DbContext.Requests.Include(r => r.Services).Include(r => r.Status).OrderByDescending(r => r.Request_date).OrderByDescending(r => r.Request_time).OrderBy(r => r.Status).ToListAsync();
 		ApplyFilters();
 	}
 

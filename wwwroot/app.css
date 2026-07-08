@@ -89,26 +89,26 @@ h1:focus {
     gap: 8px;
 }
 
-.btn-review, .btn-feedback {
+.light {
     background: var(--color-background);
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
 }
 
-    .btn-review:hover, .btn-feedback:hover {
+    .light:hover {
         background: var(--color-primary-light);
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
         color: var(--color-primary);
     }
 
-.btn-login {
+.dark{
     background: var(--color-primary);
     border: 2px solid var(--color-primary);
     color: var(--color-background);
 }
 
-    .btn-login:hover {
+    .dark:hover {
         background: var(--color-primary-hover);
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
@@ -192,6 +192,7 @@ h1:focus {
         border: 2px solid var(--color-border-input);
         border-radius: 10px;
         box-sizing: border-box;
+        transition: all ease 0.15s;
     }
 
 
@@ -247,6 +248,7 @@ input[type="checkbox"] {
     border-radius: 3px;
     cursor: pointer;
     position: relative;
+    transition: all ease 0.15s;
 }
 
     input[type="checkbox"]:checked {
@@ -286,6 +288,7 @@ input[type="date"] {
     border-radius: 10px;
     box-sizing: border-box;
     letter-spacing: 1px;
+    transition: all ease 0.15s;
 }
 
     input[type="date"]::-webkit-calendar-picker-indicator {
@@ -312,6 +315,7 @@ input[type="time"] {
     box-sizing: border-box;
     letter-spacing: 1px;
     border: 2px solid var(--color-border-input);
+    transition: all ease 0.15s;
 }
 
     input[type="time"]::-webkit-calendar-picker-indicator {
@@ -339,13 +343,14 @@ textarea {
     min-width: 340px;
     max-width: 500px;
     width: 40%;
-    padding: 10px 30px 10px 10px;
+    padding: 10px;
     font-size: 14px;
     border: 2px solid var(--color-border-input);
     border-radius: 10px;
     box-sizing: border-box;
     resize: none;
     white-space: pre-wrap;
+    transition: all ease 0.15s;
 }
 
     textarea:focus {
@@ -422,6 +427,7 @@ a {
     border: 2px solid var(--color-border-input);
     border-radius: 5px;
     padding: 5px 15px 5px 10px;
+    transition: all ease 0.15s;
 }
 
     #search:focus, select:focus {
@@ -583,7 +589,7 @@ option {
     .btn-status-done:hover {
         color: var(--color-text-primary);
     }
-    
+
 /*Страница МОИ ЗАЯВКИ*/
 
 .tiles-container {
@@ -663,16 +669,16 @@ option {
     border-bottom: 1px dashed var(--color-border);
 }
 
-.tile .tile-row:last-child {
-    border-bottom: none;
-}
+    .tile .tile-row:last-child {
+        border-bottom: none;
+    }
 
-.tile .tile-row i {
-    color: var(--color-primary);
-    font-size: 14px;
-    width: 16px;
-    text-align: center;
-}
+    .tile .tile-row i {
+        color: var(--color-primary);
+        font-size: 14px;
+        width: 16px;
+        text-align: center;
+    }
 
 .tile .label {
     font-weight: 600;
@@ -701,7 +707,7 @@ option {
     font-weight: 600;
 }
 
-.stars{
+.stars {
     display: flex;
     gap: 5px;
 }
@@ -723,10 +729,7 @@ option {
 .btn-feedback {
     width: 100%;
     padding: 12px;
-    border-width: medium;
-    border-style: none;
-    border-color: var(--color-primary);
-    border-image: initial;
+    border: none;
     border-radius: 10px;
     font-weight: 700;
     font-size: 14px;
@@ -735,4 +738,95 @@ option {
     align-items: center;
     justify-content: center;
     gap: 8px;
+}
+
+/* Модальное окно для отзыва */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: var(--color-background);
+    padding: 32px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    color: var(--color-text-primary);
+    border: none;
+    font-size: 30px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .modal-close:hover {
+        color: var(--color-text-secondary);
+    }
+
+.modal-header {
+    text-align: center;
+}
+
+.stars-section {
+    margin: 10px 0;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+ .btn-star {
+    background: none;
+    border: none;
+    font-size: 36px;
+    color: var(--color-text-light);
+    transition: all ease 0.3s;
+}
+
+    .btn-star:hover, .btn-star.active {
+        color: #ffc107;
+    }
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+.textarea-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    align-items: center;
+    gap: 5px;
+}
+
+.char-count {
+    font-size: 12px;
+    color: var(--color-text-light);
 }

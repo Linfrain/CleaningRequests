@@ -1,4 +1,5 @@
 ﻿@page "/my-requests"
+@rendermode InteractiveServer
 @attribute [Authorize(Roles = "User")]
 @inject ApplicationDbContext DbContext
 @inject AuthenticationStateProvider AuthStateProvider
@@ -97,7 +98,7 @@
 						}
 						@if (request.Status_id == 2 && request.Stars is null)
 						{
-							<button class="btn-feedback">
+							<button class="btn-feedback light" @onclick=" () => OpenFeedbackModal(request.Id)">
 								<i class="fa fa-pen-to-square" aria-hidden="true"></i>
 								Оставить отзыв
 							</button>
@@ -114,17 +115,22 @@
 			<p>Заявки не найдены</p>
 		</div>
 	}
+
+	<FeedbackModal IsVisible="showFeedbackModal" RequestId="selectedRequestId" OnClose="CloseFeedbackModal" OnSubmit="SubmitFeedback" />
 </article>
 
 
 @code {
 	private List<Request> myRequests = new();
 
+	private bool showFeedbackModal;
+	private int selectedRequestId;
+
 	protected override async Task OnInitializedAsync()
 	{
 		var userId = await GetUserId();
 		if (!string.IsNullOrEmpty(userId))
-			myRequests = await DbContext.Requests.Where(r => r.UserId == userId).Include(r => r.Status).Include(r => r.Services).OrderBy(r => r.Status_id).ToListAsync();
+			myRequests = await DbContext.Requests.Where(r => r.UserId == userId).Include(r => r.Status).Include(r => r.Services).OrderByDescending(r => r.Status).OrderByDescending(r => r.Id).ToListAsync();
 		StateHasChanged();
 	}
 
@@ -133,5 +139,28 @@
 		var user = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
 		var userId = user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
 		return userId;
+	}
+
+	private void OpenFeedbackModal(int id)
+	{
+		selectedRequestId = id;
+		showFeedbackModal = true;
+	}
+
+	private void CloseFeedbackModal()
+	{
+		showFeedbackModal = false;
+	}
+
+	private async Task SubmitFeedback(FeedbackModal.FeedbackData data)
+	{
+		var request = myRequests.FirstOrDefault(r => r.Id == selectedRequestId);
+		if (request is null) return;
+
+		request.Stars = data.Stars;
+		request.Feedback = data.Feedback;
+
+		await DbContext.SaveChangesAsync();
+		showFeedbackModal = false;
 	}
 }
