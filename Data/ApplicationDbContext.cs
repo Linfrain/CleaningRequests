@@ -17,7 +17,7 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);     
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Request>(entity =>
         {

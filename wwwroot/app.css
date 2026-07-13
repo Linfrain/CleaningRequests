@@ -102,7 +102,7 @@ h1:focus {
         color: var(--color-primary);
     }
 
-.dark{
+.dark {
     background: var(--color-primary);
     border: 2px solid var(--color-primary);
     color: var(--color-background);
@@ -422,7 +422,22 @@ a {
     padding: 5px;
 }
 
-#search, select {
+select {
+    font-size: 15px;
+    border: 2px solid var(--color-border-input);
+    border-radius: 5px;
+    padding: 5px 15px 5px 10px;
+    transition: all ease 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><path d="M0 0l6 6 6-6z" fill="%23333"/></svg>');
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+}
+
+#search {
     font-size: 15px;
     border: 2px solid var(--color-border-input);
     border-radius: 5px;
@@ -448,7 +463,7 @@ option {
     color: var(--color-text-primary);
 }
 
-    option:hover {
+    option:checked {
         background: var(--color-background-alt);
         color: var(--color-text-primary);
     }
@@ -799,7 +814,7 @@ option {
     gap: 8px;
 }
 
- .btn-star {
+.btn-star {
     background: none;
     border: none;
     font-size: 36px;
@@ -816,7 +831,6 @@ option {
     cursor: not-allowed;
     pointer-events: none;
 }
-
 
 .textarea-form {
     display: flex;

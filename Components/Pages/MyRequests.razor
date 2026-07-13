@@ -131,7 +131,8 @@
 		var userId = await GetUserId();
 		if (!string.IsNullOrEmpty(userId))
 			myRequests = await DbContext.Requests.Where(r => r.UserId == userId).Include(r => r.Status).Include(r => r.Services).OrderByDescending(r => r.Status).OrderByDescending(r => r.Id).ToListAsync();
-		StateHasChanged();
+		myRequests.Last().Stars = null;
+		myRequests.Last().Feedback = null;
 	}
 
 	async Task<string?> GetUserId()

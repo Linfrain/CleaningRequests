@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CleaningRequests.Models;
+﻿namespace CleaningRequests.Models;
 
 public partial class Service
 {
@@ -9,5 +6,5 @@ public partial class Service
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
+    public virtual ICollection<Request> Requests { get; set; } = [];
 }

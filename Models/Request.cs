@@ -39,7 +39,7 @@ public partial class Request
 
     [Required(ErrorMessage = "Выберите время уборки.")]
     [CorrectTime("Request_date")]
-    public TimeOnly Request_time { get; set;  } = TimeOnly.FromDateTime(DateTime.Now.AddHours(1));
+    public TimeOnly Request_time { get; set; } = TimeOnly.FromDateTime(DateTime.Now.AddHours(1));
 
     public string? Comment { get; set; }
 
@@ -51,11 +51,13 @@ public partial class Request
 
     [Required]
     public string UserId { get; set; } = null!;
+
     public virtual ApplicationUser User { get; set; } = null!;
 
     public virtual Status Status { get; set; } = null!;
 
+
     [MinLength(1, ErrorMessage = "Выберите хотя бы 1 услугу.")]
-    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
+    public virtual ICollection<Service> Services { get; set; } = [];
 
 }

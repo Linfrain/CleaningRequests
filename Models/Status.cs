@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CleaningRequests.Models;
+﻿namespace CleaningRequests.Models;
 
 public partial class Status
 {
@@ -8,5 +6,5 @@ public partial class Status
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
+    public virtual ICollection<Request> Requests { get; set; } = [];
 }
