@@ -24,6 +24,7 @@
 html, body {
     font-family: Inter, sans-serif;
     background-color: var(--color-background-alt);
+    scrollbar-width: none;
 }
 
 .content {
@@ -417,7 +418,6 @@ a {
 .filters {
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
     flex-wrap: wrap;
     padding: 5px;
 }
@@ -607,11 +607,42 @@ option {
 
 /*Ñòðàíèöà ÌÎÈ ÇÀßÂÊÈ*/
 
+.filters-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-reset {
+    border: none;
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 10px 10px 10px 5px;
+    font-size: 16px;
+}
+
+    .btn-reset:hover {
+        color: var(--color-text-secondary);
+    }
+
+.unvisible {
+    color: transparent;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.stats {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px;
+}
+
 .tiles-container {
     display: grid;
-    grid-template-columns: repeat(autofill, minmax(340px, 1fr));
     gap: 20px;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
 }
 
 .tile {
@@ -735,12 +766,6 @@ option {
     color: transparent;
 }
 
-.stats {
-    font-size: 16px;
-    font-weight: 600;
-    padding: 0 0 0 20px;
-}
-
 .btn-feedback {
     width: 100%;
     padding: 12px;
@@ -831,6 +856,7 @@ option {
     cursor: not-allowed;
     pointer-events: none;
 }
+
 
 .textarea-form {
     display: flex;

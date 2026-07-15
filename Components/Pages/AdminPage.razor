@@ -9,15 +9,18 @@
 	<h1>ЗАЯВКИ КЛИЕНТОВ</h1>
 </div>
 <article class="content px-4">
-	<div class="filters">
-		<input type="text" id="search" @bind="searchText" @bind:event="oninput" @bind:after="ApplyFilters" placeholder="ФИО, адрес, телефон..." MaxLength="100" />
-		<select @bind="selectedStatusId" @bind:after="ApplyFilters">
-			<option value="0">Все заявки</option>
-			@foreach (var status in statuses)
-			{
-				<option value="@status.Id">@status.Name</option>
-			}
-		</select>
+	<div class="filters-stats">
+		<div class="filters">
+			<input type="text" id="search" @bind="searchText" @bind:event="oninput" @bind:after="ApplyFilters" placeholder="ФИО, адрес, телефон..." MaxLength="100" />
+			<select @bind="selectedStatusId" @bind:after="ApplyFilters">
+				<option value="0">Все заявки</option>
+				@foreach (var status in statuses)
+				{
+					<option value="@status.Id">@status.Name</option>
+				}
+			</select>
+		</div>
+		<span class="stats">Всего заявок: @filteredRequests.Count.</span>
 	</div>
 
 	@if (filteredRequests.Any())
@@ -153,5 +156,4 @@
 
 		filteredRequests = requests.ToList();
 	}
-
 }

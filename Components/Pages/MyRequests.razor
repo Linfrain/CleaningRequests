@@ -9,14 +9,21 @@
 	<h1>МОИ ЗАЯВКИ</h1>
 </div>
 <article class="content px-4">
-	<div>
-		<span class="stats">Всего заявок: @myRequests.Count.</span>
+	<div class="filters-stats">
+		<div class="filters">
+			<input type="text" id="search" @bind="searchText" @bind:event="oninput" @bind:after="ApplyFilters" placeholder="Заявка, адрес, кабинеты..." MaxLength="100" />
+			<input type="date" @bind="selectedDate" @bind:after="ApplyFilters" />
+			<button type="button" class="btn-reset @((selectedDate is null && searchText == "") ? "unvisible" : "")" @onclick="ResetFilters">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</button>
+		</div>
+		<span class="stats">Всего заявок: @filteredRequests.Count.</span>
 	</div>
 
-	@if (myRequests.Any())
+	@if (filteredRequests.Any())
 	{
 		<section class="tiles-container">
-			@foreach (var request in myRequests)
+			@foreach (var request in filteredRequests)
 			{
 				<div class="tile status-@request.Status_id">
 					<div class="tile-header">
@@ -122,17 +129,19 @@
 
 @code {
 	private List<Request> myRequests = new();
+	private List<Request> filteredRequests = new();
 
 	private bool showFeedbackModal;
 	private int selectedRequestId;
+	private string searchText = "";
+	private DateOnly? selectedDate;
 
 	protected override async Task OnInitializedAsync()
 	{
 		var userId = await GetUserId();
 		if (!string.IsNullOrEmpty(userId))
 			myRequests = await DbContext.Requests.Where(r => r.UserId == userId).Include(r => r.Status).Include(r => r.Services).OrderByDescending(r => r.Status).OrderByDescending(r => r.Id).ToListAsync();
-		myRequests.Last().Stars = null;
-		myRequests.Last().Feedback = null;
+		ApplyFilters();
 	}
 
 	async Task<string?> GetUserId()
@@ -163,5 +172,28 @@
 
 		await DbContext.SaveChangesAsync();
 		showFeedbackModal = false;
+	}
+
+	private void ApplyFilters()
+	{
+		var requests = myRequests.AsEnumerable();
+
+		if (selectedDate is not null)
+			requests = requests.Where(r => r.Request_date == selectedDate);
+
+		if (!string.IsNullOrWhiteSpace(searchText))
+		{
+			var search = searchText.ToLower();
+			requests = requests.Where(r => ('№' + r.Id.ToString()).Contains(search) || r.Address.ToLower().Contains(search) || r.Cabinets.ToLower().Contains(search));
+		}
+
+		filteredRequests = requests.ToList();
+	}
+
+	private void ResetFilters()
+	{
+		selectedDate = null;
+		searchText = "";
+		ApplyFilters();
 	}
 }
