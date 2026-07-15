@@ -19,6 +19,10 @@
 					<option value="@status.Id">@status.Name</option>
 				}
 			</select>
+			<input type="date" @bind="selectedDate" @bind:after="ApplyFilters" />
+			<button type="button" class="btn-reset @((selectedDate is null && searchText == "") ? "unvisible" : "")" @onclick="ResetFilters">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</button>
 		</div>
 		<span class="stats">Всего заявок: @filteredRequests.Count.</span>
 	</div>
@@ -114,6 +118,7 @@
 	private List<Request> filteredRequests = new();
 	private List<Status> statuses = new();
 	private string searchText = "";
+	private DateOnly? selectedDate;
 	private int selectedStatusId = 0;
 
 	protected override async Task OnInitializedAsync()
@@ -145,8 +150,12 @@
 	private void ApplyFilters()
 	{
 		var requests = allRequests.AsEnumerable();
+
 		if (selectedStatusId != 0)
 			requests = requests.Where(r => r.Status_id == selectedStatusId);
+
+		if (selectedDate is not null)
+			requests = requests.Where(r => r.Request_date == selectedDate);
 
 		if (!string.IsNullOrWhiteSpace(searchText))
 		{
@@ -155,5 +164,13 @@
 		}
 
 		filteredRequests = requests.ToList();
+	}
+
+	private void ResetFilters()
+	{
+		selectedStatusId = 0;
+		selectedDate = null;
+		searchText = "";
+		ApplyFilters();
 	}
 }

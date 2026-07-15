@@ -425,7 +425,7 @@ a {
 select {
     font-size: 15px;
     border: 2px solid var(--color-border-input);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 5px 15px 5px 10px;
     transition: all ease 0.15s;
     appearance: none;
@@ -440,7 +440,7 @@ select {
 #search {
     font-size: 15px;
     border: 2px solid var(--color-border-input);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 5px 15px 5px 10px;
     transition: all ease 0.15s;
 }
